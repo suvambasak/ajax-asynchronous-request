@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Search</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+	<style type="text/css">
+		ul{
+			background-color: #EEE;
+			cursor: pointer;
+		}
+		li{
+			padding: 12px;
+		}
+	</style>
+</head>
+<body>
+	<div class="jumbotron text-center">
+		<h1>Demo</h1>
+		<p>Search country name</p>
+	</div>
+
+	<form class="container">
+	    <div class="form-group">
+	      <div class="col-sm-12">
+	        <input class="form-control" id="input" type="text" autocomplete="off" placeholder="Search">
+	        <div id="suggestion"></div>
+	      </div>
+	    </div>
+	</form>
+
+</body>
+</html>
+
+<script>
+	$(document).ready(function(){
+		$('#input').keyup(function(){
+			var query = $(this).val();
+			if(query!='')
+			{
+				$.ajax({
+					url:"search.php",
+					method:"POST",
+					data:{query:query},
+					success:function(data)
+					{
+						$('#suggestion').html(data);
+					}
+				});
+			}
+			else{
+				$('#suggestion').html();
+			}
+		});
+		$(document).on('click','li',function(){
+			$('#input').val($(this).text());
+			$('#suggestion').fadeOut();
+		});
+	});
+</script>
